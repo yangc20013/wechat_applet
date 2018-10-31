@@ -18,52 +18,50 @@
 </template>
 
 <script>
+export default {
+  name: "login",
 
-    export default {
-        name: 'login',
-        
-        data() {
-            return {
-                loginForm: {
-                    user_name: '',
-                    password: '',
-                },
-                rules: {
-                    user_name: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                    password: [{required: true, message: '请输入密码', trigger: 'blur'}],
-                }
-            };
-        },
-        
-        methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.func.ajaxPost(this.api.userLogin, this.loginForm, res => {
+  data() {
+    return {
+      loginForm: {
+        user_name: "",
+        password: ""
+      },
+      rules: {
+        user_name: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+      }
+    };
+  },
 
-                            if (res.data.code === 200) {
-                                this.$store.commit('user', res.data.user);
-                                this.$message.success('登陆成功');
-                                this.$router.push('/admin');
-
-                            }
-
-                        });
-
-                    }
-                });
-            },
-            
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.func.ajaxPost(this.api.userLogin, this.loginForm, res => {
+            if (res.data.code === 200) {
+              this.$store.commit("user", res.data.user);
+              this.$message.success("登陆成功");
+              this.$router.push("/admin");
+            }else{
+                this.$message.error(res.data.msg);
             }
-        },
+          });
+        }
+      });
+    },
 
-        created () {
-            if (this.$store.state.user) {
-                this.$router.push('/admin');
-            }
-        },
-
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
+  },
+
+  created() {
+    if (this.$store.state.user) {
+      this.$router.push("/admin");
+    }
+  }
+};
 </script>

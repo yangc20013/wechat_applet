@@ -44,7 +44,7 @@ module.exports = {
 
 
 		func.connPool(sql, arr, (err, rows) => {
-			console.log(rows);
+
 			rows = formatData(rows);
 			res.json({
 				code: 200,
