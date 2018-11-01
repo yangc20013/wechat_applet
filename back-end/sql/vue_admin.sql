@@ -20,10 +20,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-
-
-
-
+insert into `user`(`user_name`,`password`,`role`,`create_time`,`update_time`)values('admin','admin',100,now(),now());
 
 DROP TABLE IF EXISTS `members`;
 CREATE TABLE `members` (
@@ -39,11 +36,9 @@ CREATE TABLE `members` (
   `member_address2` varchar(100) NOT NULL DEFAULT '',	
   `member_address3` varchar(100) NOT NULL DEFAULT '',	
 	
-	
   PRIMARY KEY (`members_id`),
   UNIQUE KEY `members_id` (`members_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
-
 
 
 DROP TABLE IF EXISTS `goodstype`;
@@ -76,9 +71,6 @@ CREATE TABLE `goods` (
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 
-
-
-
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -95,10 +87,3 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`order_id`),
   UNIQUE KEY `order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
-
- 
-
-
-
-
-
