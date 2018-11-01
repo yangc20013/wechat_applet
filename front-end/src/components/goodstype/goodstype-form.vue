@@ -41,10 +41,7 @@ export default {
       }
 
       this.func.ajaxPost(this.api.goodstypeAdd, this.form, res => {
-        if (res.data.code === 200) {
-          this.$message.success("操作成功");
           this.$router.push("/admin/goodstype-list");
-        }
       });
     },
 
@@ -65,8 +62,8 @@ export default {
           goods_type
         },
         res => {
-          this.form = res.data.resultList;
-          this.form.goods_type = res.data.resultList.goods_type;
+          this.form = res.data;
+          this.form.goods_type = res.data.goods_type;
         }
       );
     }

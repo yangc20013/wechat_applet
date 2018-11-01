@@ -41,12 +41,10 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.func.ajaxPost(this.api.userLogin, this.loginForm, res => {
-            if (res.data.code === 200) {
-              this.$store.commit("user", res.data.user);
+            if (res.data) {
+              this.$store.commit("user", res.data);
               this.$message.success("登陆成功");
               this.$router.push("/admin");
-            }else{
-                this.$message.error(res.data.msg);
             }
           });
         }

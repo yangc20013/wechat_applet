@@ -48,8 +48,7 @@ module.exports = {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				msg: 'ok',
-				resultList: rows
+				data: rows
 			});
 		});
 
@@ -75,8 +74,7 @@ module.exports = {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				msg: 'ok',
-				resultList: rows[0]
+				data: rows[0]
 			});
 		});
 
@@ -118,9 +116,17 @@ module.exports = {
 
 
 		func.connPool(sql, arr, (err, rows) => {
+			if(err){
+				res.json({
+					code: 403,
+					msg: '保存失败',
+					data: err.message
+				});
+				return;
+			}
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '保存成功'
 			});
 		});
 
@@ -140,9 +146,16 @@ module.exports = {
 		let arr = [goods_type];
 
 		func.connPool(sql, arr, (err, rows) => {
+			if(err){
+				res.json({
+					code: 403,
+					msg: err.message
+				});
+				return;
+			}
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '删除成功'
 			});
 		});
 

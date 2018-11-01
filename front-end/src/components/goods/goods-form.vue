@@ -86,10 +86,8 @@ export default {
       this.form.goods_typename = this.getGoodsTypeName(this.form.goods_type);
 
       this.func.ajaxPost(this.api.goodsAdd, this.form, res => {
-        if (res.data.code === 200) {
           this.$message.success("操作成功");
           this.$router.push("/admin/goods-list");
-        }
       });
     },
     getGoodsTypeName(id) {
@@ -101,10 +99,7 @@ export default {
     },
     goodsType() {
       this.func.ajaxPost(this.api.goodsType, this.form, res => {
-        if (res.data.code === 200) {
-          this.goodsTpyeList = res.data.resultList;
-          console.log(res.data.resultList);
-        }
+          this.goodsTpyeList = res.data;
       });
     },
 
@@ -134,8 +129,8 @@ export default {
           goods_id
         },
         res => {
-          this.form = res.data.resultList;
-          this.form.goods_id = res.data.resultList.goods_id;
+          this.form = res.data;
+          this.form.goods_id = res.data.goods_id;
         }
       );
     }

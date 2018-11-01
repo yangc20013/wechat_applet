@@ -128,7 +128,7 @@ export default {
       };
 
       this.func.ajaxPost(this.api.memberList, reqParams, res => {
-        this.tableData = res.data.resultList;
+        this.tableData = res.data;
         this.load = false;
       });
     },
@@ -173,11 +173,8 @@ export default {
               members_id: row.members_id
             },
             res => {
-              if (res.data.code === 200) {
                 let index = this.tableData.indexOf(row);
                 this.tableData.splice(index, 1);
-                this.$message.success("删除成功");
-              }
             }
           );
         })
@@ -198,10 +195,7 @@ export default {
           member_id: this.curRow.member_id
         },
         res => {
-          if (res.data.code === 200) {
-            this.$message.success("成功");
             this.fetchList();
-          }
         }
       );
     },

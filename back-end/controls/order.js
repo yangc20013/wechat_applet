@@ -65,8 +65,7 @@ module.exports = {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				msg: 'ok',
-				resultList: rows
+				data: rows
 			});
 
 		});
@@ -93,8 +92,7 @@ module.exports = {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				msg: 'ok',
-				resultList: rows
+				data: rows
 			});
 		});
 
@@ -148,7 +146,7 @@ module.exports = {
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '更新成功'
 			});
 
 		});
@@ -169,7 +167,7 @@ module.exports = {
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '删除成功'
 			});
 		});
 
@@ -195,7 +193,7 @@ module.exports = {
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '更新成功'
 			});
 		});
 

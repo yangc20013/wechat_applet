@@ -91,7 +91,7 @@ export default {
       };
 
       this.func.ajaxPost(this.api.goodstypeList, reqParams, res => {
-        this.tableData = res.data.resultList;
+        this.tableData = res.data;
         this.load = false;
       });
     },
@@ -122,11 +122,8 @@ export default {
             this.api.goodstypeDelete,
             { goods_type: row.goods_type },
             res => {
-              if (res.data.code === 200) {
                 let index = this.tableData.indexOf(row);
                 this.tableData.splice(index, 1);
-                this.$message.success("删除成功");
-              }
             }
           );
         })

@@ -34,37 +34,36 @@ function formatData(rows) {
 module.exports = {
 
 	fetchAll(req, res) {
-		
-		 let cur_page =req.body.cur_page;
-		  let sql, arr ,endLimit ,startLimit;
-		
-		
 
-	
-				 endLimit = cur_page *10;
-			 startLimit =  endLimit -10;
-			
-			
-				sql ='select * from user  limit ?, ?';
-				   arr = [startLimit , endLimit];
-			
-		
-		
-		
+		let cur_page = req.body.cur_page;
+		let sql, arr, endLimit, startLimit;
+
+
+
+
+		endLimit = cur_page * 10;
+		startLimit = endLimit - 10;
+
+
+		sql = 'select * from user  limit ?, ?';
+		arr = [startLimit, endLimit];
+
+
+
+
 		func.connPool(sql, arr, (err, rows) => {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				msg: 'ok',
-				resultList: rows
+				data: rows
 			});
 
 		});
-		
-		
 
 
-	
+
+
+
 	},
 
 	// 添加用户
@@ -73,24 +72,24 @@ module.exports = {
 		let pass = req.body.pass;
 		let role = req.body.role;
 
-		
+
 
 		let sql = 'INSERT INTO user(user_name, password,role) VALUES(?,?,?)';
 		let arr = [name, pass, role];
 
-		
-		
+
+
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '添加成功'
 			});
 
 		});
-		
-		
-	
-		
+
+
+
+
 	},
 
 
@@ -101,14 +100,14 @@ module.exports = {
 
 		let id = req.body.id;
 
-		var sql = 'DELETE  from user WHERE id =? ' ;
-		
+		var sql = 'DELETE  from user WHERE id =? ';
+
 		let arr = [id];
 
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '删除成功'
 			});
 		});
 
@@ -120,7 +119,7 @@ module.exports = {
 
 	// 批量删除
 
-		deleteMulti(req, res) {
+	deleteMulti(req, res) {
 		let id = req.body.id;
 
 		let sql = 'DELETE  from user WHERE id in ?';
@@ -129,7 +128,7 @@ module.exports = {
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
-				msg: 'done'
+				msg: '删除成功'
 			});
 		});
 
@@ -137,14 +136,14 @@ module.exports = {
 
 	},
 
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 
 	// 登录
 	login(req, res) {
@@ -154,45 +153,52 @@ module.exports = {
 		let password = req.body.password;
 
 		console.log("user_name", user_name)
-		
-			let sql = 'select * from user WHERE user_name = ? ';
-		
-			let arr = [user_name];
-		
-			func.connPool(sql, arr, (err, rows) => {
-				if (!rows.length) {
 
-					res.json({
-						code: 400,
-						msg: '用户名不存在'
-					});
-					return;
-				}
+		let sql = 'select * from user WHERE user_name = ? ';
 
+		let arr = [user_name];
 
-				let pass = rows[0].password;
-
-
-				let user = {
-					user_id: rows[0].id,
-					user_name: rows[0].user_name,
-					role: rows[0].role,
-				};
-
-				req.session.login = user;
+		func.connPool(sql, arr, (err, rows) => {
+			if (!rows.length) {
 
 				res.json({
-					code: 200,
-					msg: '登录成功',
-					user: user
+					code: 403,
+					msg: '用户名不存在'
 				});
+				return;
+			}
+
+
+			let pass = rows[0].password;
+			if (password != pass) {
+				res.json({
+					code: 403,
+					msg: '密码错误'
+				});
+				return;
+			}
+
+			let user = {
+				user_id: rows[0].id,
+				user_name: rows[0].user_name,
+				role: rows[0].role,
+			};
+
+			req.session.login = user;
+			
+
+			res.json({
+				code: 200,
+				msg: '登录成功',
+				data: user
+			});
 
 
 		});
-		
-		
-		
-		
+
+
+
+
 
 
 
@@ -205,14 +211,14 @@ module.exports = {
 		if (user) {
 			res.json({
 				code: 200,
-				msg: '自动登录',
-				user: user
+				msg: '自动登录成功',
+				data: user
 			});
 
 		} else {
 			res.json({
 				code: 400,
-				msg: 'not found'
+				data: 'auto login failure'
 			});
 		}
 	},
@@ -223,7 +229,7 @@ module.exports = {
 
 		res.json({
 			code: 200,
-			msg: '注销'
+			msg: '注销成功'
 		});
 	},
 
@@ -253,31 +259,31 @@ module.exports = {
 			return;
 		}
 
-		let user_id = req.body.id;	
+		let user_id = req.body.id;
 
 		let sql = 'UPDATE user SET role= ? WHERE id =?';
-		let arr = [change_role,user_id];
+		let arr = [change_role, user_id];
 
 		func.connPool(sql, arr, (err, rows) => {
 			if (rows.affectedRows) {
-					res.json({
-						code: 200,
-						msg: 'done'
-					});
-				}
+				res.json({
+					code: 200,
+					msg: '更新成功'
+				});
+			}
 		});
 
-		
-	},
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
+	},
+
+
+
+
+
+
+
+
+
+
 
 };
