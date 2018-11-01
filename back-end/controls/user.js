@@ -34,28 +34,25 @@ function formatData(rows) {
 module.exports = {
 
 	fetchAll(req, res) {
+		let param = req.body;
+		let page_num = param.page_num;
+		let page_size = param.page_size;
+		let sql, arr, start;
+		start = (page_num - 1) * page_size;
 
-		let cur_page = req.body.cur_page;
-		let sql, arr, endLimit, startLimit;
+		sql = 'select COUNT(*) from user;select * from user  limit ?, ?';
+		arr = [start, page_size];
 
-
-
-
-		endLimit = cur_page * 10;
-		startLimit = endLimit - 10;
-
-
-		sql = 'select * from user  limit ?, ?';
-		arr = [startLimit, endLimit];
-
-
-
-
-		func.connPool(sql, arr, (err, rows) => {
+		func.connPool(sql, arr, (err, results) => {
+			let count = results[0][0]['COUNT(*)'];
+			let rows = results[1];
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				data: rows
+				data: {
+					content: rows,
+					total: count
+				}
 			});
 
 		});

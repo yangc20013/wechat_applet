@@ -21,51 +21,52 @@ module.exports = {
 	// 获取订单列表
 
 	fetchAll(req, res) {
-		let cur_page = req.body.cur_page;
+		let param = req.body;
+		let page_num = param.page_num;
+		let page_size = param.page_size;
+		let sql, arr, start;
+		start = (page_num - 1) * page_size;
+
 		let state = req.body.state;
 		let member_name = req.body.member_name;
-		let sql, arr, endLimit, startLimit;
-
-		console.log(req.body.member_name);
-
-
-		endLimit = cur_page * 10;
-		startLimit = endLimit - 10;
-
-
 
 		if (state && member_name) {
 
-			sql = 'select * from orders where state =?  and member_name =?';
-			arr = [state, member_name];
+			sql = 'select COUNT(*) from orders where state =?  and member_id =?;select * from orders where state =?  and member_id =? limit ?, ?';
+			arr = [state, member_name,state, member_name, start, page_size];
 
 
 		} else if (member_name) {
 
 
-			sql = 'select * from orders where member_name =? ';
-			arr = [member_name];
+			sql = 'select COUNT(*) from orders where member_id =?;select * from orders where member_id =? limit ?, ?';
+			arr = [member_name,member_name, start, page_size];
 
 
 		} else if (state) {
 
-			sql = 'select * from orders where state =? ';
-			arr = [state];
+			sql = 'select COUNT(*) from orders where state =?;select * from orders where state =? limit ?, ?';
+			arr = [state,state, start, page_size];
 
 
 		} else {
 
-			sql = 'select * from orders  limit ?, ?';
-			arr = [startLimit, endLimit];
+			sql = 'select COUNT(*) from orders;select * from orders  limit ?, ?';
+			arr = [start, page_size];
 		}
 
 
 
-		func.connPool(sql, arr, (err, rows) => {
+		func.connPool(sql, arr, (err, results) => {
+			let count = results[0][0]['COUNT(*)'];
+			let rows = results[1];
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				data: rows
+				data: {
+					content: rows,
+					total: count
+				}
 			});
 
 		});

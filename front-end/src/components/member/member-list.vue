@@ -68,9 +68,15 @@
 
 		</el-table>
 		<div class="pagination">
-
-			<el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="500">
-			</el-pagination>
+      <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page_num"
+          :page-sizes="[5, 10, 20, 30]"
+          :page-size="page_size"
+ 　　　　　　layout="total, sizes, prev, pager, next, jumper" 
+　　　　　　:total="total"> 
+　　　　</el-pagination>
 		</div>
 
 	</div>
@@ -82,8 +88,9 @@ export default {
   data() {
     return {
       tableData: [],
-
-      cur_page: 1,
+      total:0,
+      page_num: 1,
+      page_size: 5,
       member_phone: "",
       multipleSelection: [],
 
@@ -124,18 +131,23 @@ export default {
       this.load = true;
       var reqParams = {
         member_phone: this.member_phone,
-        cur_page: this.cur_page
+        page_size: this.page_size,
+        page_num: this.page_num
       };
 
       this.func.ajaxPost(this.api.memberList, reqParams, res => {
-        this.tableData = res.data;
+        this.tableData = res.data.content;
+        this.total = res.data.total;
         this.load = false;
       });
     },
-
+    handleSizeChange(val) {
+      this.page_size = val;
+      this.fetchList();
+    },
     //分页
     handleCurrentChange(val) {
-      this.cur_page = val;
+      this.page_num = val;
       this.fetchList();
     },
 

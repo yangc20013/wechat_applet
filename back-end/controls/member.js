@@ -21,33 +21,34 @@ module.exports = {
 	// 获取商品列表
 
 	fetchAll(req, res) {
-		let cur_page = req.body.cur_page;
+		let param = req.body;
+		let page_num = param.page_num;
+		let page_size = param.page_size;
+		let sql, arr, start;
+		start = (page_num - 1) * page_size;
+		
 		let member_phone = req.body.member_phone;
-		let sql, arr, endLimit, startLimit;
 
-		console.log(req.body.cur_page);
-
-
-		endLimit = cur_page * 10;
-		startLimit = endLimit - 10;
 		if (member_phone) {
-
-			sql = 'select * from members where member_phone =? ';
-			arr = [member_phone];
-
+			sql = 'select COUNT(*) from members where member_phone=?; select * from members where member_phone =? limit ?, ?';
+			arr = [member_phone,member_phone,start, page_size];
 		} else {
-
-			sql = 'select * from members  limit ?, ?';
-			arr = [startLimit, endLimit];
+			sql = 'select COUNT(*) from members;select * from members  limit ?, ?';
+			arr = [start, page_size];
 		}
 
 
 
-		func.connPool(sql, arr, (err, rows) => {
+		func.connPool(sql, arr, (err, results) => {
+			let count = results[0][0]['COUNT(*)'];
+			let rows = results[1];
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				data: rows
+				data: {
+					content: rows,
+					total: count
+				}
 			});
 
 		});
@@ -72,18 +73,10 @@ module.exports = {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				msg: 'ok',
 				data: rows[0]
 			});
 		});
-
-
 	},
-
-
-
-
-
 
 	// 添加|更新 会员
 	addOne(req, res) {

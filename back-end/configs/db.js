@@ -12,6 +12,7 @@ module.exports = {
     port: 3306,
     user:'root',  
     password:'root',  
-    database:'node_vue_admin',  
+    database:'node_vue_admin', 
+    multipleStatements: true 
 }
 

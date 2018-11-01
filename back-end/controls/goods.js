@@ -19,33 +19,34 @@ function formatData(rows) {
 module.exports = {
 	// 获取商品列表
 	fetchAll(req, res) {
-		let cur_page = req.body.cur_page;
-		let goods_name = req.body.goods_name;
-		let sql, arr, endLimit, startLimit;
+		let param = req.body;
+		let page_num = param.page_num;
+		let page_size = param.page_size;
+		let sql, arr, start;
+		start = (page_num - 1) * page_size;
 
-		console.log(req.body.cur_page);
+		let goods_name = param.goods_name;
 
-
-		endLimit = cur_page * 10;
-		startLimit = endLimit - 10;
 		if (goods_name) {
-
-			sql = 'select * from goods where goods_name =?';
-			arr = [goods_name];
-
+			goods_name = '%' + goods_name + '%';
+			sql = 'select COUNT(*) from goods where goods_name like ?;select * from goods where goods_name like ? limit ?, ?';
+			arr = [goods_name, goods_name, start, page_size];
 		} else {
-
-			sql = 'select * from goods  limit ?, ?';
-			arr = [startLimit, endLimit];
+			sql = 'select COUNT(*) from `goods`;select * from `goods`  limit ?, ?';
+			arr = [start, page_size];
 		}
 
 
-
-		func.connPool(sql, arr, (err, rows) => {
+		func.connPool(sql, arr, (err, results) => {
+			let count = results[0][0]['COUNT(*)'];
+			let rows = results[1];
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				data: rows
+				data: {
+					content: rows,
+					total: count
+				}
 			});
 
 		});
@@ -56,7 +57,7 @@ module.exports = {
 
 
 
-//商品类型
+	//商品类型
 
 	fetchType(req, res) {
 
@@ -113,25 +114,21 @@ module.exports = {
 		let goods_type = req.body.goods_type;
 		let goods_typename = req.body.goods_typename;
 		let inventory = req.body.inventory;
-		
-		let imgs= req.body.imgs;	
-		let onsale= req.body.onsale;	
-		let goods_details= req.body.goods_details;
-		
 
-	
+		let imgs = req.body.imgs;
+		let onsale = req.body.onsale;
+		let goods_details = req.body.goods_details;
+
 		let sql, arr;
-
-
 
 		if (goods_id) {
 			// 更新
 			sql = 'UPDATE goods SET goods_name=?, goods_price=? ,goods_type =? ,goods_typename =? ,inventory =? ,imgs =?,onsale=?,goods_details =?  WHERE goods_id=?';
-			arr = [goods_name, goods_price, goods_type, goods_typename, inventory,imgs,onsale, goods_details,goods_id];
+			arr = [goods_name, goods_price, goods_type, goods_typename, inventory, imgs, onsale, goods_details, goods_id];
 		} else {
 			// 新增
 			sql = 'INSERT INTO goods(goods_name, goods_price,goods_type,goods_typename,inventory,imgs,onsale, goods_details) VALUES(?,?,?,?,?,?,?,?)';
-			arr = [goods_name, goods_price, goods_type, goods_typename, inventory,imgs,onsale, goods_details];
+			arr = [goods_name, goods_price, goods_type, goods_typename, inventory, imgs, onsale, goods_details];
 
 		}
 

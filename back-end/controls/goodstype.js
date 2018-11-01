@@ -21,34 +21,36 @@ module.exports = {
 	// 获取商品列表
 
 	fetchAll(req, res) {
-		let cur_page = req.body.cur_page;
+		let param = req.body;
+		let page_num = param.page_num;
+		let page_size = param.page_size;
+		let sql, arr, start;
+		start = (page_num - 1) * page_size;
+
 		let goods_typename = req.body.goods_typename;
-		let sql, arr, endLimit, startLimit;
-
-		console.log(req.body.cur_page);
-
-
-		endLimit = cur_page * 10;
-		startLimit = endLimit - 10;
 		if (goods_typename) {
 
-			sql = 'select * from goodstype where goods_typename =? ';
-			arr = [goods_typename];
+			sql = 'select COUNT(*) from goodstype where goods_typename =?;select * from goodstype where goods_typename =? limit ?, ?';
+			arr = [goods_typename,goods_typename,start, page_size];
 
 		} else {
 
-			sql = 'select * from goodstype  limit ?, ?';
-			arr = [startLimit, endLimit];
+			sql = 'select COUNT(*) from goodstype;select * from goodstype  limit ?, ?';
+			arr = [start, page_size];
 		}
 
 
 
-		func.connPool(sql, arr, (err, rows) => {
-
+		func.connPool(sql, arr, (err, results) => {
+			let count = results[0][0]['COUNT(*)'];
+			let rows = results[1];
 			rows = formatData(rows);
 			res.json({
 				code: 200,
-				data: rows
+				data: {
+					content: rows,
+					total: count
+				}
 			});
 		});
 
