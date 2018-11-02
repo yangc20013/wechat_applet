@@ -3,12 +3,12 @@ import axios from "axios";
 import ElementUI from "element-ui";
 import Vue from "vue";
 import 'element-ui/lib/theme-default/index.css'
-import Index from "../renders/index.vue";
-import router from "../routes/router";
-import store from "../state/vuex-store";
-import "../assets/css/admin.scss";
-import func from "../public/func";
-import api from "../api/api";
+import Index from "./components/index.vue";
+import router from "./routes/router";
+import store from "./store/vuex-store";
+import "./assets/css/admin.scss";
+import func from "./utils/func";
+import api from "./utils/api";
 
 Vue.use(ElementUI);
 Vue.prototype.$http = axios;

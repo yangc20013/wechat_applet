@@ -208,7 +208,6 @@ module.exports = {
 		if (user) {
 			res.json({
 				code: 200,
-				msg: '自动登录成功',
 				data: user
 			});
 

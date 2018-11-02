@@ -3,7 +3,6 @@ let baseUrl ='/api';
 
 module.exports = {
    
-
     // user
     userList: baseUrl + '/user/list',
     userDelete: baseUrl + '/user/delete',
@@ -14,8 +13,6 @@ module.exports = {
     userAutoLogin: baseUrl + '/user/auto-login',
     userChangeRole: baseUrl + '/user/change-role',
 	
-	
-	
  // member
     memberList: baseUrl + '/member/list',
     memberDetail: baseUrl + '/member/detail',
@@ -24,14 +21,11 @@ module.exports = {
     memberDeleteMulti: baseUrl + '/member/delete-multi',
     memberChangeRole: baseUrl + '/member/change-role',
 	
-	
 	// goodstype
     goodstypeList: baseUrl + '/goodstype/list',
     goodstypeDetail: baseUrl + '/goodstype/detail',
     goodstypeDelete: baseUrl + '/goodstype/delete',
     goodstypeAdd: baseUrl + '/goodstype/add',
-   
-
 	
 	 // goods
     goodsList: baseUrl + '/goods/list',	
@@ -41,19 +35,11 @@ module.exports = {
     goodsAdd: baseUrl + '/goods/add',
     goodsDeleteMulti: baseUrl + '/goods/delete-multi',
     goodsUploadImg: baseUrl + '/goods/upload-img',
-	
-	
 		
 	 // order
     orderList: baseUrl + '/order/list',	
     orderDetail: baseUrl + '/order/detail',
     orderDelete: baseUrl + '/order/delete',
     orderAdd: baseUrl + '/order/add',
-
-  
-	
-	
-	
-	
 	
 };
