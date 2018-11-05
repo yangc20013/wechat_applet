@@ -58,14 +58,14 @@ CREATE TABLE `goods` (
   `goods_id` int(11) NOT NULL AUTO_INCREMENT,
    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `update_time` datetime COMMENT '更新时间',
-  `goods_name` varchar(50) NOT NULL DEFAULT 'noname',
+  `goods_name` varchar(255) NOT NULL DEFAULT 'noname',
   `goods_price` float(10,2) NOT NULL DEFAULT '0.00',
   `inventory` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `goods_type` int(11) Default null COMMENT '类型',
   `goods_typename` varchar(50) Default null COMMENT '分类',
-  `imgs` varchar(50) Default null,
+  `imgs` varchar(4000) Default null,
   `onsale` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '是否上架',
-  `goods_details` varchar(50) DEFAULT '' COMMENT '详情',
+  `goods_details` varchar(4000) DEFAULT '' COMMENT '详情',
   PRIMARY KEY (`goods_id`),
   UNIQUE KEY `goods_id` (`goods_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
