@@ -42,16 +42,16 @@ export default {
         axios.get(api)
             .then(cb)
             .catch(err => {
-                if(fail) fail;
-                console.log(err);
+              console.log(err);
+              if(fail) fail;
             })
     },
     ajaxPost (api, post, cb, fail) {
         axios.post(api, post)
             .then(cb)
             .catch(err => {
-                if(fail) fail;
-                console.log(err);
+              console.log(err);
+              if(fail) fail;
             })
     },
 }

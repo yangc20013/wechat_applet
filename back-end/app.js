@@ -3,6 +3,7 @@ let bodyParser = require('body-parser');
 let path = require('path');
 let session = require('express-session');
 let router = require('./routes/router');
+let common = require('./controls/common');
 
 let port = process.env.PORT || 9999;
 let app = express();
@@ -31,14 +32,20 @@ app.use(function (req, res, next) {
         next();
     }
 });
+app.use('/uploads/*', (req,res,next)=>{
+    common.getImage(req,res,next);
+    return;
+});
 // 拦截所有请求
 app.all('/*', (req, res, next) => {
     var jsPattern = /\.js$/;
+
     var url = req.originalUrl;
     if (jsPattern.test(url)) {
         // 公共部分，放行 next(); 
         return;
-    } if (url == '/api/user/login' || url == "/api/user/logout") {
+    } 
+    if (url == '/api/user/login' || url == "/api/user/logout") {
         next();
         return;
     }

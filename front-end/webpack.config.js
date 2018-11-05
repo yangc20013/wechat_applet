@@ -96,6 +96,12 @@ module.exports = {
 				secure: false,
 				changeOrigin: true,
 				// pathRewrite: {'^/api': ''},
+			},
+			'/uploads':{
+				target: 'http://localhost:9999', //测试地址
+				secure: false,
+				changeOrigin: true,
+				// pathRewrite: {'^/api': ''},
 			}
 		}
 	},

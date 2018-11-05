@@ -141,9 +141,6 @@ module.exports = {
 			});
 		});
 
-
-
-
 	},
 
 
@@ -183,25 +180,5 @@ module.exports = {
 			});
 		});
 
-
-
-	},
-
-
-
-	//图片上传
-
-	uploadGoodsImg(req, res) {
-		let absolutePath = path.resolve(__dirgoods_name, req.file.path);
-		let a = 2;
-
-		func.connPool('UPDATE goods SET imgs = ? WHERE id = ?', [absolutePath, 60], (err, rows) => {
-			console.log(a);
-			res.send({
-				code: 200,
-				msg: 'done',
-				data: absolutePath
-			});
-		}, res);
-	},
+	}
 };

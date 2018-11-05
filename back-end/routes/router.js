@@ -1,5 +1,6 @@
 let express = require('express');
 
+let common = require('../controls/common');
 let user = require('../controls/user');
 let member = require('../controls/member');
 let goodstype = require('../controls/goodstype');
@@ -11,6 +12,10 @@ let upload = require('../utils/upload');
 
 
 let router = express.Router();
+
+// common
+router.post(api.uploadFile, upload.single('avatar'), common.uploadFile);
+router.post(api.removeFile, common.removeFile);
 
 // user
 router.post(api.userList, user.fetchAll);
@@ -44,9 +49,8 @@ router.post(api.goodsDetail, goods.fetchById);
 router.post(api.goodsAdd, goods.addOne);
 router.post(api.goodsDelete, goods.deleteOne);
 router.post(api.goodsDeleteMulti, goods.deleteMulti);
-router.post(api.goodsUploadImg, upload.single('avatar'), goods.uploadGoodsImg); // 图片上传
 
-// goods
+// order
 router.post(api.orderList, order.fetchAll);
 
 router.post(api.orderDetail, order.fetchById);

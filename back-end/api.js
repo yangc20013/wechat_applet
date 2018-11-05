@@ -1,7 +1,9 @@
 let path = '/api';
 
 module.exports = {
-   
+    //common
+    uploadFile: path + '/upload-file',
+    removeFile: path + '/remove-file',
 
     // user
     userList: path + '/user/list',
@@ -12,10 +14,10 @@ module.exports = {
     userLogout: path + '/user/logout',
     userAutoLogin: path + '/user/auto-login',
     userChangeRole: path + '/user/change-role',
-	
-	
-	
- // member
+
+
+
+    // member
     memberList: path + '/member/list',
     memberDetail: path + '/member/detail',
     memberDelete: path + '/member/delete',
@@ -23,45 +25,26 @@ module.exports = {
     memberDeleteMulti: path + '/member/delete-multi',
     memberChangeRole: path + '/member/change-role',
 
-	
-	 // goodstype
+    // goodstype
     goodstypeList: path + '/goodstype/list',
     goodstypeDetail: path + '/goodstype/detail',
-   	goodstypeDelete: path + '/goodstype/delete',
+    goodstypeDelete: path + '/goodstype/delete',
     goodstypeAdd: path + '/goodstype/add',
     goodstypeDeleteMulti: path + '/goodstype/delete-multi',
-   
-	
 
-	
-	 // goods
+    // goods
     goodsList: path + '/goods/list',
-	goodsType:path + '/goods/fetchType',	
+    goodsType: path + '/goods/fetchType',
     goodsDetail: path + '/goods/detail',
     goodsDelete: path + '/goods/delete',
     goodsAdd: path + '/goods/add',
     goodsDeleteMulti: path + '/goods/delete-multi',
-    goodsUploadImg: path + '/goods/upload-img',
-	
-	
-	
-	
-		
-	 // order
-   	orderList: path + '/order/list',
-	orderType:path + '/order/fetchType',	
+
+    // order
+    orderList: path + '/order/list',
+    orderType: path + '/order/fetchType',
     orderDetail: path + '/order/detail',
     orderDelete: path + '/order/delete',
     orderAdd: path + '/order/add',
     orderDeleteMulti: path + '/order/delete-multi',
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 };

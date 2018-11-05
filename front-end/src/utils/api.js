@@ -2,6 +2,9 @@
 let baseUrl ='/api';
 
 module.exports = {
+    // common
+    uploadFile: baseUrl + '/upload-file',
+    removeFile: baseUrl + '/remove-file',
    
     // user
     userList: baseUrl + '/user/list',
